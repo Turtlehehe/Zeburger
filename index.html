@@ -6,166 +6,113 @@
     <title>Zeburger: Donate to Zeka</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #ff6600; /* Màu cam HLE */
-            --dark-color: #1a1a1a;
-            --light-color: #f4f4f4;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: var(--light-color);
-            color: var(--dark-color);
-            line-height: 1.6;
-        }
-
+        :root { --primary-color: #ff6600; --dark-color: #1a1a1a; --light-color: #f8f9fa; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--light-color); color: var(--dark-color); line-height: 1.6; }
+        
         header {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 2rem 1rem;
-            text-align: center;
-            border-bottom: 5px solid var(--primary-color);
+            height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('banner.jpg') no-repeat center center/cover;
+            background-color: #1a1a1a; border-bottom: 6px solid var(--primary-color);
         }
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-        }
+        .container { max-width: 800px; margin: -40px auto 40px; padding: 0 20px; }
 
-        .fan-credit {
-            font-style: italic;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
+        /* QR SECTION */
+        .donate-card { background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        .qr-img { width: 100%; max-width: 350px; border-radius: 10px; }
 
-        /* Section Donate */
-        .donate-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
+        /* POST STYLES */
+        .section-title { border-left: 5px solid var(--primary-color); padding-left: 15px; margin: 40px 0 20px; font-size: 1.5rem; }
+        
+        .post-card { background: white; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; }
+        .post-header { padding: 20px; cursor: pointer; background: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .post-header:hover { background: #fffcf9; }
+        .post-content { padding: 0 20px 20px; display: none; border-top: 1px solid #eee; }
+        .post-date { color: #888; font-size: 0.85rem; display: block; margin-bottom: 5px; }
+        .post-content img { width: 100%; border-radius: 8px; margin: 15px 0; }
+        
+        /* PINNED MARKER */
+        .pinned-label { background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
 
-        .qr-code {
-            width: 250px;
-            height: 250px;
-            background: #ddd;
-            margin: 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed var(--primary-color);
-        }
+        /* RECAP */
+        .recap-card { background: var(--dark-color); color: white; padding: 25px; border-radius: 12px; text-align: center; }
+        .recap-amount { color: var(--primary-color); font-weight: bold; font-size: 1.2rem; }
 
-        /* Section Posts */
-        .section-title {
-            border-left: 5px solid var(--primary-color);
-            padding-left: 15px;
-            margin-bottom: 20px;
-        }
-
-        .post-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .post-date {
-            font-size: 0.8rem;
-            color: #777;
-        }
-
-        /* Section Recap */
-        .recap-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .recap-item {
-            background: var(--dark-color);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .recap-item:hover {
-            transform: translateY(-5px);
-            background: var(--primary-color);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.9rem;
-            color: #666;
-        }
+        footer { text-align: center; padding: 40px; color: #888; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>🍔 Zeburger: Donate to Zeka</h1>
-    <p>Thực hiện bởi: <span class="fan-credit">Fan Vietnam</span></p>
+    <p>Thực hiện bởi: <strong>Fan Vietnam</strong></p>
 </header>
 
 <div class="container">
     
-    <section class="donate-section">
-        <h2 class="section-title">Ủng hộ quỹ Zeburger</h2>
-        <p>Mọi đóng góp sẽ được sử dụng cho các project tiếp sức Zeka!</p>
-        <div class="qr-code">
-            <img src="https://via.placeholder.com/250?text=QR+CODE+HERE" alt="Mã QR Donate" style="max-width:100%">
-        </div>
-        <p><strong>Nội dung chuyển khoản:</strong> ZEBURGER [Ten_cua_ban]</p>
+    <section class="donate-card">
+        <img src="qr-zekas.jpg" alt="Mã QR Donate" class="qr-img">
+        <p><strong>Nội dung ck:</strong> ZEBURGER [Tên bạn]</p>
     </section>
 
-    <section>
-        <h2 class="section-title">Thông báo & Bài viết</h2>
-        <div class="post-card">
-            <span class="post-date">29/01/2026</span>
-            <h3>Khởi động quỹ Zeburger mùa giải mới</h3>
-            <p>Chúng mình chính thức mở cổng nhận donate để chuẩn bị cho Project mừng sinh nhật Zeka sắp tới...</p>
-        </div>
-        <div class="post-card">
-            <span class="post-date">15/01/2026</span>
-            <h3>Cập nhật tình hình Project Coffee Truck</h3>
-            <p>Xe cà phê đã được gửi đến trụ sở HLE thành công! Cảm ơn mọi người đã ủng hộ.</p>
-        </div>
-    </section>
+    <h2 class="section-title">Thông báo & Bài viết</h2>
 
-    <section>
-        <h2 class="section-title">Lưu trữ Recap</h2>
-        <div class="recap-list">
-            <div class="recap-item">
-                <h4>World 2024</h4>
-                <p>Tổng: 10.000.000đ</p>
+    <div class="post-card">
+        <div class="post-header" onclick="togglePost('post1')">
+            <div>
+                <span class="post-date">23/01/2026</span>
+                <strong style="font-size: 1.1rem;">Thông tin quỹ</strong> <span class="pinned-label">GHIM</span>
             </div>
-            <div class="recap-item">
-                <h4>Birthday 2025</h4>
-                <p>Tổng: 15.000.000đ</p>
-            </div>
-            <div class="recap-item">
-                <h4>LCK Summer</h4>
-                <p>Tổng: 8.000.000đ</p>
-            </div>
+            <i class="fas fa-chevron-down"></i>
         </div>
-    </section>
+        <div id="post1" class="post-content">
+            <p>1. <strong>Link quỹ:</strong> https://quy.momo.vn/v2/XjLc4Rvcl5?e14fe <br>
+               2. <strong>Tên quỹ:</strong> Zeburger 🍔 | Donate cheeses to Zeka on chzzk <br>
+               3. <strong>Thủ quỹ:</strong> NGUYEN HONG XUAN NHUNG (MOMO) <br>
+               4. <strong>Số tài khoản:</strong> PSG2601814900000025 </p>
+            <p><strong>Lưu ý:</strong> Quỹ duy trì hàng tháng, công khai minh bạch để nạp cheese cho Zeka. </p>
+            <img src="anh-bai-viet-1.jpg" alt="Hình ảnh thông tin quỹ">
+        </div>
+    </div>
+
+    <div class="post-card">
+        <div class="post-header" onclick="togglePost('post2')">
+            <div>
+                <span class="post-date">28/01/2026</span>
+                <strong style="font-size: 1.1rem;">THÔNG BÁO: RÚT QUỸ VÀ DONATE TRƯỚC THỜI HẠN</strong>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div id="post2" class="post-content">
+            <p>Vì HLE hủy buổi stream hôm 29/01/2026, chúng mình quyết định rút quỹ và donate vào ngày 28/01/2026. </p>
+            <p><strong>Tổng quỹ hiện tại:</strong> 2.848.220 VNĐ <br>
+               <strong>Số tiền rút đợt này:</strong> 1.555.556 VNĐ (Tương ứng 50.000 phô mai) </p>
+            <p><strong>Nội dung donate:</strong> Geonwoo à, fan Việt Nam chúc mừng Geonwoo có POM đầu tiên. Hãy ăn nhiều burger và thi đấu tốt nhé! </p>
+            <img src="anh-bai-viet-2.jpg" alt="Hình ảnh rút quỹ">
+        </div>
+    </div>
+
+    <h2 class="section-title">Lưu trữ Recap</h2>
+    <div class="recap-card">
+        <h3>Donate Stream tháng 1</h3>
+        <p class="recap-amount">1.555.556 VND</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">(Video & Bản dịch đang được cập nhật)</p>
+    </div>
 
 </div>
 
-<footer>
-    <p>&copy; 2026 Zeburger Project - Fan Vietnam.</p>
-    <p>Đây là website phi lợi nhuận của cộng đồng người hâm mộ.</p>
-</footer>
+<footer><p>&copy; 2026 Zeburger Project - Fan Vietnam.</p></footer>
+
+<script>
+    function togglePost(id) {
+        var post = document.getElementById(id);
+        if (post.style.display === "block") {
+            post.style.display = "none";
+        } else {
+            post.style.display = "block";
+        }
+    }
+</script>
 
 </body>
 </html>
