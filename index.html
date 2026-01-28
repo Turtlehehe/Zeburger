@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeburger: Donate to Zeka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff6600; /* Màu cam HLE */
+            --dark-color: #1a1a1a;
+            --light-color: #f4f4f4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--primary-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .fan-credit {
+            font-style: italic;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Section Donate */
+        .donate-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            background: #ddd;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--primary-color);
+        }
+
+        /* Section Posts */
+        .section-title {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        .post-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .post-date {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* Section Recap */
+        .recap-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .recap-item {
+            background: var(--dark-color);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .recap-item:hover {
+            transform: translateY(-5px);
+            background: var(--primary-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🍔 Zeburger: Donate to Zeka</h1>
+    <p>Thực hiện bởi: <span class="fan-credit">Fan Vietnam</span></p>
+</header>
+
+<div class="container">
+    
+    <section class="donate-section">
+        <h2 class="section-title">Ủng hộ quỹ Zeburger</h2>
+        <p>Mọi đóng góp sẽ được sử dụng cho các project tiếp sức Zeka!</p>
+        <div class="qr-code">
+            <img src="https://via.placeholder.com/250?text=QR+CODE+HERE" alt="Mã QR Donate" style="max-width:100%">
+        </div>
+        <p><strong>Nội dung chuyển khoản:</strong> ZEBURGER [Ten_cua_ban]</p>
+    </section>
+
+    <section>
+        <h2 class="section-title">Thông báo & Bài viết</h2>
+        <div class="post-card">
+            <span class="post-date">29/01/2026</span>
+            <h3>Khởi động quỹ Zeburger mùa giải mới</h3>
+            <p>Chúng mình chính thức mở cổng nhận donate để chuẩn bị cho Project mừng sinh nhật Zeka sắp tới...</p>
+        </div>
+        <div class="post-card">
+            <span class="post-date">15/01/2026</span>
+            <h3>Cập nhật tình hình Project Coffee Truck</h3>
+            <p>Xe cà phê đã được gửi đến trụ sở HLE thành công! Cảm ơn mọi người đã ủng hộ.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Lưu trữ Recap</h2>
+        <div class="recap-list">
+            <div class="recap-item">
+                <h4>World 2024</h4>
+                <p>Tổng: 10.000.000đ</p>
+            </div>
+            <div class="recap-item">
+                <h4>Birthday 2025</h4>
+                <p>Tổng: 15.000.000đ</p>
+            </div>
+            <div class="recap-item">
+                <h4>LCK Summer</h4>
+                <p>Tổng: 8.000.000đ</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Zeburger Project - Fan Vietnam.</p>
+    <p>Đây là website phi lợi nhuận của cộng đồng người hâm mộ.</p>
+</footer>
+
+</body>
+</html>
