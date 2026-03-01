@@ -1,246 +1,119 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, QrCode, ExternalLink, X, Heart } from 'lucide-react';
-
-// --- DATA THẬT TỪ NGƯỜI DÙNG ---
-const ANNOUNCEMENTS = [
-  { 
-    id: 1, 
-    date: "22/01/2026", 
-    title: "DEBUT QUỸ: MỞ CỔNG NHẬN DONATE", 
-    content: "Nhân dịp Zeka đạt được POM, chúng mình quyết định debut MXH, thành lập một quỹ nhỏ trên MoMo. Số tiền ủng hộ từ mọi người sẽ được mua cheese donate vào các buổi stream hằng tháng của HLE Zeka. Bảng giá Cheese sẽ được niêm yết và nội dung Donate sẽ luôn tham khảo ý kiến từ mọi người.",
-    details: [
-        "Link quỹ: https://quy.momo.vn/v2/XjLc4Rvcl5?e14fe",
-        "Tên quỹ: Zeburger 🍔 | Donate cheeses to Zeka on chzzk",
-        "Thủ quỹ: NGUYEN HONG XUAN NHUNG",
-        "Số tài khoản MoMo: PSG2601814900000025"
-    ]
-  },
-  { 
-    id: 2, 
-    date: "28/01/2026", 
-    title: "Rút quỹ và Donate trước thời hạn + Tổng kết tháng 1", 
-    content: "Do lý do khách quan: HLE thay đổi lịch stream của tuyển thủ, nên chúng mình sẽ rút quỹ sớm để tiến hành Donate ngay. Tổng quỹ tính đến 28/01 là: 2.848.220 VNĐ.",
-    details: [
-        "Số tiền rút: 1.555.556 VNĐ (tương ứng 50.000 phô mai)",
-        "Nội dung Donate: 건우야, 베트남에 있는 팬들이 첫 POM 수상을 진심으로 축하해! 햄버거 많이 먹고, 건강 잘 챙겨서 앞으로도 경기 잘 해줘!",
-        "Dịch: Geonwoo à, mọi người ở Việt Nam chúc mừng Geonwoo có được POM đầu tiên nha. Hãy ăn nhiều burger, giữ gìn sức khỏe để thi đấu tốt."
-    ]
-  },
-  { 
-    id: 3, 
-    date: "27/02/2026", 
-    title: "Thông báo sự kiện 'Save for the BIG DAY'", 
-    content: "Tháng 3 là kỷ niệm 6 năm Debut của 'Kim con Ká', chúng mình sẽ tích lũy quỹ dư từ tháng 1, tháng 2 để chuẩn bị một món quà lớn hơn vào Stream tháng 3.",
-    details: [
-        "Dư quỹ tháng 1: 1.229.664 VNĐ",
-        "Tổng thu tháng 2: 1.948.336 VNĐ",
-        "Tổng quỹ khả dụng hiện tại: 3.241.000 VNĐ"
-    ]
-  },
-  { 
-    id: 4, 
-    date: "01/03/2026", 
-    title: "Debut trang Fanpage chính thức", 
-    content: "Để chuyên nghiệp hóa hình ảnh Zeburger, chúng mình quyết định tạo trang Fanpage. Chúng mình vẫn duy trì hoạt động mạnh mẽ trên X và cập nhật thường xuyên.",
-    details: ["Hãy theo dõi chúng mình trên nền tảng Facebook và X để không bỏ lỡ thông tin nào nhé!"]
-  }
-];
-
-// --- COMPONENT CHẠY SỐ ---
-const Counter = ({ value }) => {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => Math.round(latest).toLocaleString());
-  useEffect(() => {
-    const controls = animate(count, value, { duration: 2, ease: "easeOut" });
-    return controls.stop;
-  }, [value]);
-  return <motion.span>{rounded}</motion.span>;
-};
-
-export default function ZeburrgerProject() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedPost, setSelectedPost] = useState(null);
-
-  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
-  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + ANNOUNCEMENTS.length) % ANNOUNCEMENTS.length);
-
-  return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2D2D2D] font-sans p-4 md:p-10 selection:bg-orange-200">
-      <div className="max-w-6xl mx-auto space-y-12">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeburger: Donate to Zeka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary-color: #ff6600; --dark-color: #1a1a1a; --light-color: #f8f9fa; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--light-color); color: var(--dark-color); line-height: 1.6; }
         
-        {/* HEADER */}
-        <header className="flex justify-between items-center border-b-2 border-black pb-6">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center text-white font-black italic">Z</div>
-            <h1 className="text-3xl font-black tracking-tighter italic uppercase text-orange-600">ZEBURRGER</h1>
-          </div>
-          <nav className="hidden md:flex gap-8 font-bold uppercase text-xs tracking-widest">
-            <a href="#" className="hover:text-orange-600 transition">Timeline</a>
-            <a href="#" className="hover:text-orange-600 transition">Quỹ Donate</a>
-            <a href="#" className="bg-black text-white px-4 py-2 rounded-full">Recap 2026</a>
-          </nav>
-        </header>
+        header {
+            height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('banner.jpg') no-repeat center center/cover;
+            background-color: #1a1a1a; border-bottom: 6px solid var(--primary-color);
+        }
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* GROUP THÔNG BÁO - SLIDER */}
-          <section className="bg-white p-8 rounded-[2.5rem] shadow-xl border-2 border-black flex flex-col justify-between min-h-[400px]">
+        .container { max-width: 800px; margin: -40px auto 40px; padding: 0 20px; }
+
+        /* QR SECTION */
+        .donate-card { background: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        .qr-img { width: 100%; max-width: 350px; border-radius: 10px; }
+
+        /* POST STYLES */
+        .section-title { border-left: 5px solid var(--primary-color); padding-left: 15px; margin: 40px 0 20px; font-size: 1.5rem; }
+        
+        .post-card { background: white; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; }
+        .post-header { padding: 20px; cursor: pointer; background: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .post-header:hover { background: #fffcf9; }
+        .post-content { padding: 0 20px 20px; display: none; border-top: 1px solid #eee; }
+        .post-date { color: #888; font-size: 0.85rem; display: block; margin-bottom: 5px; }
+        .post-content img { width: 100%; border-radius: 8px; margin: 15px 0; }
+        
+        /* PINNED MARKER */
+        .pinned-label { background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
+
+        /* RECAP */
+        .recap-card { background: var(--dark-color); color: white; padding: 25px; border-radius: 12px; text-align: center; }
+        .recap-amount { color: var(--primary-color); font-weight: bold; font-size: 1.2rem; }
+
+        footer { text-align: center; padding: 40px; color: #888; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🍔 Zeburger: Donate to Zeka</h1>
+    <p>Thực hiện bởi: <strong>Fan Vietnam</strong></p>
+</header>
+
+<div class="container">
+    
+    <section class="donate-card">
+        <img src="qr-zekas.jpg" alt="Mã QR Donate" class="qr-img">
+        <p><strong>Nội dung ck:</strong> Lời chúc/câu donate mong muốn của bạn</p>
+    </section>
+
+    <h2 class="section-title">Thông báo & Bài viết</h2>
+
+    <div class="post-card">
+        <div class="post-header" onclick="togglePost('post1')">
             <div>
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-black uppercase italic flex items-center gap-2">
-                    <span className="w-2 h-8 bg-orange-500 rounded-full"></span> Thông báo mới nhất
-                </h2>
-                <div className="flex gap-2">
-                  <button onClick={prevSlide} className="p-3 border-2 border-black rounded-full hover:bg-orange-500 hover:text-white transition-all"><ChevronLeft size={20}/></button>
-                  <button onClick={nextSlide} className="p-3 border-2 border-black rounded-full hover:bg-orange-500 hover:text-white transition-all"><ChevronRight size={20}/></button>
-                </div>
-              </div>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  onClick={() => setSelectedPost(ANNOUNCEMENTS[currentIndex])}
-                  className="group cursor-pointer bg-orange-50 p-6 rounded-3xl border-2 border-orange-200 hover:border-black transition-all"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="bg-orange-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase italic">News</span>
-                    <p className="text-gray-500 font-bold text-sm">{ANNOUNCEMENTS[currentIndex].date}</p>
-                  </div>
-                  <h3 className="text-2xl font-black mb-4 leading-tight group-hover:text-orange-600 transition">{ANNOUNCEMENTS[currentIndex].title}</h3>
-                  <p className="text-gray-600 line-clamp-3 leading-relaxed">{ANNOUNCEMENTS[currentIndex].content}</p>
-                </motion.div>
-              </AnimatePresence>
+                <span class="post-date">23/01/2026</span>
+                <strong style="font-size: 1.1rem;">Thông tin quỹ</strong> <span class="pinned-label">GHIM</span>
             </div>
-            <p className="mt-4 text-xs font-bold text-gray-400 italic italic uppercase">* Nhấp vào ô để xem báo cáo chi tiết</p>
-          </section>
-
-          {/* GROUP TỔNG KẾT - CHART & NUMBER */}
-          <section className="bg-orange-600 p-10 rounded-[2.5rem] shadow-xl text-white flex flex-col justify-center relative overflow-hidden">
-             {/* Hiệu ứng lấp đầy biểu đồ tròn */}
-            <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
-                <div className="relative w-44 h-44 flex-shrink-0 bg-orange-700/30 rounded-full p-2">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="42" stroke="rgba(255,255,255,0.1)" strokeWidth="12" fill="transparent" />
-                    <motion.circle
-                    cx="50" cy="50" r="42" stroke="white" strokeWidth="12" fill="transparent"
-                    strokeDasharray="263.8"
-                    initial={{ strokeDashoffset: 263.8 }}
-                    animate={{ strokeDashoffset: 263.8 - (263.8 * 100) / 100 }} // Lấp đầy 100%
-                    transition={{ duration: 2.5, ease: "easeInOut" }}
-                    strokeLinecap="round"
-                    />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <Heart fill="white" className="mb-1" size={24}/>
-                    <span className="text-sm font-black uppercase tracking-widest">Zeburger</span>
-                </div>
-                </div>
-
-                <div>
-                <h2 className="text-xl font-bold opacity-80 mb-2 uppercase tracking-widest italic">Tổng quỹ khả dụng (T2)</h2>
-                <div className="text-5xl md:text-6xl font-black mb-3 italic tracking-tighter flex items-center gap-2">
-                    <Counter value={3241000} /> <span className="text-2xl not-italic font-bold">VNĐ</span>
-                </div>
-                <div className="h-1 w-20 bg-white mb-4 rounded-full"></div>
-                <p className="text-orange-100 text-sm leading-relaxed max-w-xs font-medium">
-                    "Tích lũy từ tháng 1 & 2 để chuẩn bị món quà lớn nhất cho Kỷ niệm 6 năm Debut vào tháng 3."
-                </p>
-                </div>
-            </div>
-            {/* Background trang trí */}
-            <div className="absolute -bottom-10 -right-10 text-white/5 font-black text-9xl italic select-none">ZEKA</div>
-          </section>
+            <i class="fas fa-chevron-down"></i>
         </div>
-
-        {/* TRANG RECAP: VIDEO & DONATE */}
-        <section className="space-y-8 pb-10">
-          <div className="flex items-end gap-4">
-            <h2 className="text-4xl font-black italic uppercase leading-none">Recap & Donation</h2>
-            <div className="h-px flex-1 bg-gray-200 mb-2"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Ô XÁM 1: VIDEO RECAP */}
-            <div className="lg:col-span-2 aspect-video bg-gray-200 rounded-[3rem] overflow-hidden relative group shadow-2xl border-4 border-white">
-              <iframe 
-                className="w-full h-full" 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Hãy thay bằng ID video thật của bạn
-                title="Zeburrger Video Recap" frameBorder="0" allowFullScreen
-              ></iframe>
-              <div className="absolute inset-0 bg-black/20 pointer-events-none group-hover:opacity-0 transition-opacity flex items-center justify-center">
-                <div className="bg-white/90 p-5 rounded-full shadow-xl"><Play fill="black" size={32}/></div>
-              </div>
-            </div>
-
-            {/* Ô XÁM 2: QR & LINK QUỸ */}
-            <div className="bg-[#E5E7EB] p-10 rounded-[3rem] flex flex-col items-center justify-center text-center border-4 border-white shadow-xl">
-              <div className="w-full aspect-square max-w-[180px] bg-white rounded-3xl p-4 mb-6 shadow-md border-2 border-black rotate-3 hover:rotate-0 transition-transform">
-                <QrCode size="100%" className="text-black" strokeWidth={1.5}/>
-              </div>
-              <h4 className="text-2xl font-black mb-2 italic text-gray-800">JOIN OUR FUND</h4>
-              <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-8 px-4">
-                Quét mã MoMo để cùng đồng hành với Zeburrger & Zeka
-              </p>
-              <a 
-                href="https://quy.momo.vn/v2/XjLc4Rvcl5?e14fe" 
-                target="_blank" 
-                className="w-full py-4 bg-orange-600 text-white rounded-2xl font-black hover:bg-black transition-all flex items-center justify-center gap-2 shadow-lg tracking-widest text-sm"
-              >
-                THAM GIA NGAY <ExternalLink size={18}/>
-              </a>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* MODAL CHI TIẾT BÀI VIẾT */}
-      <AnimatePresence>
-        {selectedPost && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedPost(null)}
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 50 }}
-              className="bg-white p-8 md:p-12 rounded-[3.5rem] max-w-2xl w-full relative shadow-2xl border-t-8 border-orange-600"
-              onClick={e => e.stopPropagation()}
-            >
-              <button onClick={() => setSelectedPost(null)} className="absolute top-8 right-8 p-3 hover:bg-gray-100 rounded-full transition-all border border-gray-200"><X size={24}/></button>
-              
-              <div className="mb-6">
-                <span className="text-orange-600 font-black italic tracking-widest">{selectedPost.date}</span>
-                <h2 className="text-3xl md:text-4xl font-black mt-2 italic uppercase leading-[1.1]">{selectedPost.title}</h2>
-              </div>
-              
-              <div className="space-y-6">
-                <p className="text-gray-700 text-lg leading-relaxed font-medium">{selectedPost.content}</p>
-                <div className="bg-gray-50 p-6 rounded-3xl border-2 border-dashed border-gray-200">
-                    <h4 className="font-black text-orange-600 uppercase text-sm mb-4 tracking-tighter italic">Thông tin chi tiết / Báo cáo:</h4>
-                    <ul className="space-y-3">
-                        {selectedPost.details.map((item, i) => (
-                            <li key={i} className="text-sm font-bold text-gray-500 flex gap-2">
-                                <span className="text-orange-500">→</span> {item}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-              </div>
-
-              <button 
-                onClick={() => setSelectedPost(null)} 
-                className="mt-10 w-full py-4 bg-black text-white rounded-2xl font-black hover:bg-orange-600 transition-all tracking-widest uppercase italic"
-              >
-                Xác nhận đã đọc
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <div id="post1" class="post-content">
+            <p>1. <strong>Link quỹ:</strong> https://quy.momo.vn/v2/XjLc4Rvcl5?e14fe <br>
+               2. <strong>Tên quỹ:</strong> Zeburger 🍔 | Donate cheeses to Zeka on chzzk <br>
+               3. <strong>Thủ quỹ:</strong> NGUYEN HONG XUAN NHUNG (MOMO) <br>
+               4. <strong>Số tài khoản:</strong> PSG2601814900000025 </p>
+            <p><strong>Lưu ý:</strong> Quỹ duy trì hàng tháng, công khai minh bạch để nạp cheese cho Zeka. </p>
+            <img src="anh-bai-viet-1.jpg" alt="Hình ảnh thông tin quỹ">
+        </div>
     </div>
-  );
-}
+
+    <div class="post-card">
+        <div class="post-header" onclick="togglePost('post2')">
+            <div>
+                <span class="post-date">28/01/2026</span>
+                <strong style="font-size: 1.1rem;">THÔNG BÁO: RÚT QUỸ VÀ DONATE TRƯỚC THỜI HẠN</strong>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div id="post2" class="post-content">
+            <p>Vì HLE hủy buổi stream hôm 29/01/2026, chúng mình quyết định rút quỹ và donate vào ngày 28/01/2026. </p>
+            <p><strong>Tổng quỹ hiện tại:</strong> 2.848.220 VNĐ <br>
+               <strong>Số tiền rút đợt này:</strong> 1.555.556 VNĐ (Tương ứng 50.000 phô mai) </p>
+            <p><strong>Nội dung donate:</strong> Geonwoo à, fan Việt Nam chúc mừng Geonwoo có POM đầu tiên. Hãy ăn nhiều burger và thi đấu tốt nhé! </p>
+           <img src="anh-bai-viet-2.png" alt="Hình ảnh rút quỹ">
+        </div>
+    </div>
+
+    <h2 class="section-title">Lưu trữ Recap</h2>
+    <div class="recap-card">
+        <h3>Donate Stream tháng 1</h3>
+        <p class="recap-amount">1.555.556 VND</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">(Video & Bản dịch đang được cập nhật)</p>
+    </div>
+
+</div>
+
+<footer><p>&copy; 2026 Zeburger Project - Fan Vietnam.</p></footer>
+
+<script>
+    function togglePost(id) {
+        var post = document.getElementById(id);
+        if (post.style.display === "block") {
+            post.style.display = "none";
+        } else {
+            post.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>
+
